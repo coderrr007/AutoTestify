@@ -1,0 +1,15 @@
+<!-- TestBuilder/templates/TestBuilder/openai_form.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>OpenAI Configuration</title>
+</head>
+<body>
+    <h1>Configure OpenAI</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>
