@@ -103,8 +103,8 @@ class Neo4jGraph:
         1. The function has the following imports: {imports}
         2. It depends on the following related functions: {related_functions}
         3. Analyze the provided related functions and imports to determine the module or app that each model or function belongs to.
-        5. If the function uses a model, identify its module name or path from the given imports.
-        6. Do not make any assumptions or import models or functions from unspecified modules. Use the context provided by the imports and related functions to proceed.
+        4. If the function uses a model, identify its module name or path from the given imports.
+        5. Do not make any assumptions or import models or functions from unspecified modules. Use the context provided by the imports and related functions to proceed.
 
         Based on this information, generate comprehensive unit tests to ensure the function works as expected.
         Make sure the data generated output just have the unit test cases not other content
@@ -309,17 +309,10 @@ def create_testcases(openai_type, project_path,neo4j_url, username, password):
         
         all_functions = graph.get_all_functions()
         test_cases_dict = {}
-        func = {}
         for function in all_functions:
             function_name = function['function_name']
             if function.get("file_name"):
                 file_name = function['file_name']
-                if func.get(file_name):
-                    if func[file_name] > 3:
-                        continue
-                    func[file_name] += 1
-                else:
-                    func[file_name] = 1
                 print(f"Processing function: {function_name} in file: {file_name}")
                 embedding = get_function_embedding(function["code"])
 
