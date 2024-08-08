@@ -157,13 +157,13 @@ class Neo4jGraph:
             messages = self.create_test_case_prompt(function_name, file_name, related_data[0],code,context_set)
             if openai_type == "azure":
                 response = openai.ChatCompletion.create(
-                    engine="gpt35turbo",  # or any other available model
+                    engine="gpt35turbo",  
                     messages=messages,
                     temperature=0.5
                 )
             else:
                 response = openai.ChatCompletion.create(
-                    model="gpt-3.5-turbo",  # or any other available model
+                    model="gpt-3.5-turbo",  
                     messages=messages,
                     temperature=0.5
                 )
@@ -185,7 +185,6 @@ class Neo4jGraph:
                 'imports': imports
             })
         
-        # Also fetch related functions
         related_functions_query = """
         MATCH (f:Node {name: $function_name})-[:DEPENDS_ON]->(related:Node)
         WHERE related.name <> $function_name
@@ -200,7 +199,6 @@ class Neo4jGraph:
         return data
 
 
-# Function to parse files and extract functions and imports
 def parse_file(filepath):
     print("filepath((()))",filepath,flush=True)
     with open(filepath, 'r') as file:
@@ -304,7 +302,6 @@ def find_similar_functions(index, function_ids, embedding, top_k=5):
 def create_testcases(openai_type, project_path,neo4j_url, username, password):
     graph = Neo4jGraph(neo4j_url, username, password)
     try:
-        # Walk through the Django project directory
         index, function_ids = walk_project_directory(project_path, graph)
         
         all_functions = graph.get_all_functions()
@@ -316,7 +313,6 @@ def create_testcases(openai_type, project_path,neo4j_url, username, password):
                 print(f"Processing function: {function_name} in file: {file_name}")
                 embedding = get_function_embedding(function["code"])
 
-                # Find similar functions for better context
                 similar_functions = find_similar_functions(index, function_ids, embedding,2)
                 test_cases = graph.generate_test_cases(openai_type, function_name, file_name,function["code"],similar_functions)
                 directory, _, _ = file_name.rpartition('/')
