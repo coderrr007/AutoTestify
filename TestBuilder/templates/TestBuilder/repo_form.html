@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html>
 <head>
     <title>Clone Repository</title>
@@ -10,5 +10,61 @@
         {{ form.as_p }}
         <button type="submit">Clone</button>
     </form>
+</body>
+</html> -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configuration Form</title>
+    <style>
+        .form-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+        .form-section {
+            width: 60%;
+        }
+        .error-section {
+            width: 35%;
+            margin-left: 20px;
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Clone GitHub Repository</h1>
+    <div class="form-container">
+        <div class="form-section">
+            <form method="post">
+                {% csrf_token %}
+                <p>
+                    {{ form.repo_link.label_tag }}
+                    {{ form.repo_link }}
+                </p>
+                <p>
+                    {{ form.username.label_tag }}
+                    {{ form.username }}
+                </p>
+                <p>
+                    {{ form.password.label_tag }}
+                    {{ form.password }}
+                </p>
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+
+        {% if error_message %}
+        <div class="error-section">
+            <h2>Error:</h2>
+            <p>{{ error_message }}</p>
+        </div>
+        {% endif %}
+    </div>
 </body>
 </html>

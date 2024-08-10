@@ -1,4 +1,4 @@
-<!-- TestBuilder/templates/TestBuilder/openai_form.html -->
+<!-- TestBuilder/templates/TestBuilder/openai_form.html
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,5 +11,99 @@
         {{ form.as_p }}
         <button type="submit">Submit</button>
     </form>
+</body>
+</html> -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configuration Form</title>
+    <style>
+        .form-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+        .form-section {
+            width: 60%;
+        }
+        .error-section, .success-section {
+            width: 35%;
+            margin-left: 20px;
+            font-weight: bold;
+        }
+        .error-section {
+            color: red;
+        }
+        .success-section {
+            color: green;
+        }
+    </style>
+    <script>
+        function showProgress() {
+            document.getElementById("progress-message").style.display = "block";
+            document.getElementById("error-section").style.display = "none"; 
+        }
+    </script>
+</head>
+<body>
+    <h1>Configuration Form</h1>
+    <div class="form-container">
+        <div class="form-section">
+            <form method="post" onsubmit="showProgress()">
+                {% csrf_token %}
+                <p>
+                    {{ form.openai_key.label_tag }}
+                    {{ form.openai_key }}
+                </p>
+                <p>
+                    {{ form.openai_version.label_tag }}
+                    {{ form.openai_version }}
+                </p>
+                <p>
+                    {{ form.openai_type.label_tag }}
+                    {{ form.openai_type }}
+                </p>
+                <p>
+                    {{ form.openai_base_url.label_tag }}
+                    {{ form.openai_base_url }}
+                </p>
+                <p>
+                    {{ form.neo4j_url.label_tag }}
+                    {{ form.neo4j_url }}
+                </p>
+                <p>
+                    {{ form.username.label_tag }}
+                    {{ form.username }}
+                </p>
+                <p>
+                    {{ form.password.label_tag }}
+                    {{ form.password }}
+                </p>
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+
+        {% if error_message %}
+        <div id="error-section" class="error-section" style="display: {% if error_message %}block{% else %}none{% endif %};">
+            <h2>Error:</h2>
+            <p>{{ error_message }}</p>
+        </div>
+        {% endif %}
+
+
+        <div class="success-section">
+            <div id="progress-message" style="display: none;">
+                <p>Testcases building started...</p>
+            </div>
+            {% if success_message %}
+                <h2>Success:</h2>
+                <p>{{ success_message }}</p>
+            {% endif %}
+        </div>
+    </div>
 </body>
 </html>
